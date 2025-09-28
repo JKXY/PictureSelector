@@ -340,8 +340,7 @@ public class CustomCameraView extends RelativeLayout implements CameraXOrientati
                                     long minSecond = recordVideoMinSecond <= 0 ? CustomCameraConfig.DEFAULT_MIN_RECORD_VIDEO : recordVideoMinSecond;
 
                                     // 计算录制时长
-                                    long durationMillis = finalizeEvent.getRecordingStats().getRecordedDurationNanos() / 1_000_000;
-                                    long recordTime = durationMillis / 1000;
+                                    long recordTime = finalizeEvent.getRecordingStats().getRecordedDurationNanos() / 1_000_000;
 
                                     Uri savedUri = finalizeEvent.getOutputResults().getOutputUri();
 
