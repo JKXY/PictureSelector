@@ -68,4 +68,5 @@ public final class PictureConfig {
 
     public final static int MODE_TYPE_SYSTEM_SOURCE = 1;
     public final static int MODE_TYPE_EXTERNAL_PREVIEW_SOURCE = 2;
+    public final static int MODE_TYPE_SYSTEM_PICK_SOURCE = 3;
 }

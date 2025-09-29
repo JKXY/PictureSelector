@@ -2,18 +2,17 @@ package com.luck.picture.lib.basic;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.luck.picture.lib.PictureOnlyCameraFragment;
+import com.luck.picture.lib.PictureSelectorPickFragment;
 import com.luck.picture.lib.PictureSelectorPreviewFragment;
 import com.luck.picture.lib.PictureSelectorSystemFragment;
 import com.luck.picture.lib.R;
@@ -22,8 +21,6 @@ import com.luck.picture.lib.config.SelectorConfig;
 import com.luck.picture.lib.config.SelectorProviders;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.style.PictureWindowAnimationStyle;
-import com.luck.picture.lib.style.SelectMainStyle;
-import com.luck.picture.lib.utils.StyleUtils;
 
 import java.util.ArrayList;
 
@@ -78,6 +75,9 @@ public class PictureSelectorTransparentActivity extends AppCompatActivity {
             boolean isDisplayDelete = getIntent()
                     .getBooleanExtra(PictureConfig.EXTRA_EXTERNAL_PREVIEW_DISPLAY_DELETE, false);
             ((PictureSelectorPreviewFragment) targetFragment).setExternalPreviewData(position, previewData.size(), previewData, isDisplayDelete);
+        } else if (modeTypeSource == PictureConfig.MODE_TYPE_SYSTEM_PICK_SOURCE) {
+            fragmentTag = PictureSelectorPickFragment.TAG;
+            targetFragment = PictureSelectorPickFragment.newInstance();
         } else {
             fragmentTag = PictureOnlyCameraFragment.TAG;
             targetFragment = PictureOnlyCameraFragment.newInstance();
