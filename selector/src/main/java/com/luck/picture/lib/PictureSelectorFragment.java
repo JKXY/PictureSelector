@@ -255,7 +255,7 @@ public class PictureSelectorFragment extends PictureCommonFragment
         onCreateLoader();
         initAlbumListPopWindow();
         initTitleBar();
-        initPickSelectMoreBar();
+        initReselectionBar();
         initComplete();
         initRecycler(view);
         initBottomNavBar();
@@ -428,7 +428,10 @@ public class PictureSelectorFragment extends PictureCommonFragment
         });
     }
 
-    private void initPickSelectMoreBar() {
+    private void initReselectionBar() {
+        if (reselectionBar == null) {
+            return;
+        }
         reselectionBar.setReselectionBarStyle();
         reselectionBar.setOnReselectionBarListener(new OnReselectionBarListener() {
             @Override
@@ -442,6 +445,9 @@ public class PictureSelectorFragment extends PictureCommonFragment
     }
 
     private void updateReselectionBar() {
+        if (reselectionBar == null) {
+            return;
+        }
         if (isReselectionEnable()) {
             reselectionBar.setVisibility(View.VISIBLE);
         } else {
@@ -587,8 +593,12 @@ public class PictureSelectorFragment extends PictureCommonFragment
             if (isHasCamera) {
                 ToastUtils.showToast(getContext(), getString(R.string.ps_camera));
             } else {
-                ToastUtils.showToast(getContext(), getString(R.string.ps_jurisdiction));
-                onKeyBackFragmentFinish();
+                if (isReselectionEnable()) {//兼容低版本 targetSDK
+                    beginLoadData();
+                } else {
+                    ToastUtils.showToast(getContext(), getString(R.string.ps_jurisdiction));
+                    onKeyBackFragmentFinish();
+                }
             }
         }
         PermissionConfig.CURRENT_REQUEST_PERMISSION = new String[]{};
