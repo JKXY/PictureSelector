@@ -67,7 +67,7 @@ dependencies {
     //implementation("io.github.liyuhaolol:ucrop:v3.11.3")
     implementation(project(":camerax"))
     implementation(project(":ijkplayer-java"))
-    implementation(project(":chooser"))
+    implementation(project(":selector"))
     //implementation("io.github.liyuhaolol:PictureChooser:1.0.0")
     implementation (libs.androidx.navigation.fragment.ktx)
     implementation (libs.androidx.navigation.ui.ktx)
