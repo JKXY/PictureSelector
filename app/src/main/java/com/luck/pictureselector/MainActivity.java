@@ -486,7 +486,7 @@ public class MainActivity extends AppCompatActivity implements IBridgePictureBeh
                                 .isUseSystemVideoPlayer(isUseSystemPlayer)
                                 .isPageSyncAlbumCount(true)
                                 .isUsePhotoPicker(cbPhotoPick.isChecked())
-                                .isUseDynamicAddSelect(cbDynamicAddSelect.isChecked())
+                                .isUseReselection(cbDynamicAddSelect.isChecked())
                                 .setCustomLoadingListener(getCustomLoadingListener())
                                 .setQueryFilterListener(new OnQueryFilterListener() {
                                     @Override

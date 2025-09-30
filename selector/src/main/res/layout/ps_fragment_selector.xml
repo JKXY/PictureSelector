@@ -14,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_height="48dp" />
 
-    <com.luck.picture.lib.widget.DynamicAddSelectBar
+    <com.luck.picture.lib.widget.ReselectionBar
         android:id="@+id/dynamic_add_select_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

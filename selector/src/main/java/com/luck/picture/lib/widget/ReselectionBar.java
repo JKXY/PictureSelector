@@ -13,29 +13,29 @@ import androidx.core.view.ViewCompat;
 import com.luck.picture.lib.R;
 import com.luck.picture.lib.config.SelectorConfig;
 import com.luck.picture.lib.config.SelectorProviders;
-import com.luck.picture.lib.style.DynamicAddSelectBarStyle;
+import com.luck.picture.lib.style.ReselectionBarStyle;
 import com.luck.picture.lib.style.PictureSelectorStyle;
 import com.luck.picture.lib.utils.StyleUtils;
 
-public class DynamicAddSelectBar extends LinearLayout implements View.OnClickListener {
+public class ReselectionBar extends LinearLayout implements View.OnClickListener {
 
-    protected LinearLayout llMoreBar;
+    protected LinearLayout llReselectionBar;
     protected TextView tvTips;
     protected TextView tvMore;
     protected SelectorConfig config;
 
 
-    public DynamicAddSelectBar(Context context) {
+    public ReselectionBar(Context context) {
         super(context);
         init();
     }
 
-    public DynamicAddSelectBar(Context context, AttributeSet attrs) {
+    public ReselectionBar(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public DynamicAddSelectBar(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ReselectionBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
@@ -43,23 +43,23 @@ public class DynamicAddSelectBar extends LinearLayout implements View.OnClickLis
     protected void init() {
         inflateLayout();
         config = SelectorProviders.getInstance().getSelectorConfig();
-        llMoreBar = findViewById(R.id.ll_dynamic_add_select);
-        tvTips = findViewById(R.id.tv_dynamic_add_select_tips);
-        tvMore = findViewById(R.id.tv_dynamic_add_select_btn);
+        llReselectionBar = findViewById(R.id.ll_reselection);
+        tvTips = findViewById(R.id.tv_reselection_tips);
+        tvMore = findViewById(R.id.tv_reselection_btn);
         tvMore.setOnClickListener(this);
         handleLayoutUI();
     }
 
     protected void inflateLayout() {
-        LayoutInflater.from(getContext()).inflate(R.layout.ps_dynamic_add_select_bar, this);
+        LayoutInflater.from(getContext()).inflate(R.layout.ps_reselection_bar, this);
     }
 
     protected void handleLayoutUI() {
 
     }
 
-    public LinearLayout getMoreBar() {
-        return llMoreBar;
+    public LinearLayout getReselectionBar() {
+        return llReselectionBar;
     }
 
     public TextView getTvTips() {
@@ -86,9 +86,9 @@ public class DynamicAddSelectBar extends LinearLayout implements View.OnClickLis
         return tvTips.getText().toString();
     }
 
-    public void setDynamicAddSelectBarStyle() {
+    public void setReselectionBarStyle() {
         PictureSelectorStyle selectorStyle = config.selectorStyle;
-        DynamicAddSelectBarStyle barStyle = selectorStyle.getDynamicAddSelectBarStyle();
+        ReselectionBarStyle barStyle = selectorStyle.getReselectionBarStyle();
 
         int backgroundColor = barStyle.getBarBackgroundColor();
         if (StyleUtils.checkStyleValidity(backgroundColor)) {
@@ -120,29 +120,29 @@ public class DynamicAddSelectBar extends LinearLayout implements View.OnClickLis
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if (id == R.id.tv_dynamic_add_select_btn) {
-            if (pickSelectMoreBarListener != null) {
-                pickSelectMoreBarListener.onDynamicAddClick();
+        if (id == R.id.tv_reselection_btn) {
+            if (reselectionBarListener != null) {
+                reselectionBarListener.onReselectionClick();
             }
         }
     }
 
-    protected OnDynamicAddSelectBarListener pickSelectMoreBarListener;
+    protected OnReselectionBarListener reselectionBarListener;
 
     /**
-     * PickSelectMoreBar的功能事件回调
+     * ReselectionBar 的功能事件回调
      *
      * @param listener
      */
-    public void setOnPickSelectMoreBarListener(OnDynamicAddSelectBarListener listener) {
-        this.pickSelectMoreBarListener = listener;
+    public void setOnReselectionBarListener(OnReselectionBarListener listener) {
+        this.reselectionBarListener = listener;
     }
 
-    public static class OnDynamicAddSelectBarListener {
+    public static class OnReselectionBarListener {
         /**
          * 点击选择更多
          */
-        public void onDynamicAddClick() {
+        public void onReselectionClick() {
 
         }
     }

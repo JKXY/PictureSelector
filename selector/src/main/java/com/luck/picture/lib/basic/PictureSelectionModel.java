@@ -1317,12 +1317,12 @@ public final class PictureSelectionModel {
     }
 
     /**
-     * set isUseDynamicAddSelect default:true
-     * @param isUseDynamicAddSelect
+     * set isUseReselection default:true
+     * @param isUseReselection
      * @return
      */
-    public PictureSelectionModel isUseDynamicAddSelect(boolean isUseDynamicAddSelect){
-        selectionConfig.isUseDynamicAddSelect = isUseDynamicAddSelect;
+    public PictureSelectionModel isUseReselection(boolean isUseReselection){
+        selectionConfig.isUseReselection = isUseReselection;
         return this;
     }
 

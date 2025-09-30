@@ -30,7 +30,7 @@ public class PictureSelectorStyle {
      */
     private PictureWindowAnimationStyle windowAnimationStyle;
 
-    private DynamicAddSelectBarStyle dynamicAddSelectBarStyle;
+    private ReselectionBarStyle reselectionBarStyle;
 
     public TitleBarStyle getTitleBarStyle() {
         return titleBarStyle == null ? new TitleBarStyle() : titleBarStyle;
@@ -75,11 +75,11 @@ public class PictureSelectorStyle {
         this.albumWindowStyle = albumWindowStyle;
     }
 
-    public DynamicAddSelectBarStyle getDynamicAddSelectBarStyle() {
-        return dynamicAddSelectBarStyle == null ? new DynamicAddSelectBarStyle() : dynamicAddSelectBarStyle;
+    public ReselectionBarStyle getReselectionBarStyle() {
+        return reselectionBarStyle == null ? new ReselectionBarStyle() : reselectionBarStyle;
     }
 
-    public void setDynamicAddSelectBarStyle(DynamicAddSelectBarStyle dynamicAddSelectBarStyle) {
-        this.dynamicAddSelectBarStyle = dynamicAddSelectBarStyle;
+    public void setReselectionBarStyle(ReselectionBarStyle reselectionBarStyle) {
+        this.reselectionBarStyle = reselectionBarStyle;
     }
 }

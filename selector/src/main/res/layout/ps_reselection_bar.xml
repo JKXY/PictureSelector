@@ -4,7 +4,7 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:id="@+id/ll_dynamic_add_select"
+        android:id="@+id/ll_reselection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/ps_color_4d"
@@ -14,25 +14,25 @@
         android:paddingHorizontal="12dp">
 
         <com.luck.picture.lib.widget.MediumBoldTextView
-            android:id="@+id/tv_dynamic_add_select_tips"
+            android:id="@+id/tv_reselection_tips"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="@string/ps_dynamic_add_select_tips"
+            android:text="@string/ps_reselection_tips"
             android:textColor="@color/ps_color_white"
             android:textSize="12sp" />
 
         <com.luck.picture.lib.widget.MediumBoldTextView
-            android:id="@+id/tv_dynamic_add_select_btn"
+            android:id="@+id/tv_reselection_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/ps_btn_dynamic_add_select"
             android:gravity="center_vertical"
             android:paddingHorizontal="12dp"
             android:paddingVertical="6dp"
-            android:text="@string/ps_pick_select_more_btn"
+            android:text="@string/ps_reselection_btn"
             android:textColor="@color/ps_color_white"
             android:textSize="12sp" />
     </LinearLayout>

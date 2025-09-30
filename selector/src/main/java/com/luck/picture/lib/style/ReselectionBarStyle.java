@@ -1,6 +1,6 @@
 package com.luck.picture.lib.style;
 
-public class DynamicAddSelectBarStyle {
+public class ReselectionBarStyle {
     /**
      * 背景色
      */

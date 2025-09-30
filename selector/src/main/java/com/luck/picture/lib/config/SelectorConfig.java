@@ -146,7 +146,7 @@ public final class SelectorConfig {
     public boolean isNewKeyBackMode;
     public PictureSelectorStyle selectorStyle;
     public boolean isUsePhotoPicker;
-    public boolean isUseDynamicAddSelect;
+    public boolean isUseReselection;
 
     public SelectorConfig() {
         initDefaultValue();
@@ -247,7 +247,7 @@ public final class SelectorConfig {
         isNewKeyBackMode = true;
         isUseSystemVideoPlayer = false;
         isUsePhotoPicker = false;
-        isUseDynamicAddSelect = true;
+        isUseReselection = true;
     }
 
     /**

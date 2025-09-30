@@ -69,9 +69,9 @@ import com.luck.picture.lib.utils.ToastUtils;
 import com.luck.picture.lib.utils.ValueOf;
 import com.luck.picture.lib.widget.BottomNavBar;
 import com.luck.picture.lib.widget.CompleteSelectView;
-import com.luck.picture.lib.widget.DynamicAddSelectBar;
-import com.luck.picture.lib.widget.DynamicAddSelectBar.OnDynamicAddSelectBarListener;
 import com.luck.picture.lib.widget.RecyclerPreloadView;
+import com.luck.picture.lib.widget.ReselectionBar;
+import com.luck.picture.lib.widget.ReselectionBar.OnReselectionBarListener;
 import com.luck.picture.lib.widget.SlideSelectTouchListener;
 import com.luck.picture.lib.widget.SlideSelectionHandler;
 import com.luck.picture.lib.widget.TitleBar;
@@ -99,7 +99,7 @@ public class PictureSelectorFragment extends PictureCommonFragment
     private TextView tvDataEmpty;
     private TitleBar titleBar;
     private BottomNavBar bottomNarBar;
-    private DynamicAddSelectBar dynamicAddSelectBar;
+    private ReselectionBar reselectionBar;
     private CompleteSelectView completeSelectView;
     private TextView tvCurrentDataTime;
     private long intervalClickTime = 0;
@@ -249,7 +249,7 @@ public class PictureSelectorFragment extends PictureCommonFragment
         tvDataEmpty = view.findViewById(R.id.tv_data_empty);
         completeSelectView = view.findViewById(R.id.ps_complete_select);
         titleBar = view.findViewById(R.id.title_bar);
-        dynamicAddSelectBar = view.findViewById(R.id.dynamic_add_select_bar);
+        reselectionBar = view.findViewById(R.id.dynamic_add_select_bar);
         tvCurrentDataTime = view.findViewById(R.id.tv_current_data_time);
         bottomNarBar = view.findViewById(R.id.bottom_nar_bar);
         onCreateLoader();
@@ -261,6 +261,8 @@ public class PictureSelectorFragment extends PictureCommonFragment
         initBottomNavBar();
         if (isMemoryRecycling) {
             recoverSaveInstanceData();
+        } else if (isReselectionEnable()) {
+            beginLoadData();
         } else {
             requestLoadData();
         }
@@ -427,10 +429,10 @@ public class PictureSelectorFragment extends PictureCommonFragment
     }
 
     private void initPickSelectMoreBar() {
-        dynamicAddSelectBar.setDynamicAddSelectBarStyle();
-        dynamicAddSelectBar.setOnPickSelectMoreBarListener(new OnDynamicAddSelectBarListener() {
+        reselectionBar.setReselectionBarStyle();
+        reselectionBar.setOnReselectionBarListener(new OnReselectionBarListener() {
             @Override
-            public void onDynamicAddClick() {
+            public void onReselectionClick() {
                 if (DoubleUtils.isFastDoubleClick()) {
                     return;
                 }
@@ -439,11 +441,11 @@ public class PictureSelectorFragment extends PictureCommonFragment
         });
     }
 
-    private void updatePickSelectMoreBar() {
-        if (isDynamicAddSelectEnable()) {
-            dynamicAddSelectBar.setVisibility(View.VISIBLE);
+    private void updateReselectionBar() {
+        if (isReselectionEnable()) {
+            reselectionBar.setVisibility(View.VISIBLE);
         } else {
-            dynamicAddSelectBar.setVisibility(View.GONE);
+            reselectionBar.setVisibility(View.GONE);
         }
     }
 
@@ -553,7 +555,7 @@ public class PictureSelectorFragment extends PictureCommonFragment
      * 开始获取数据
      */
     private void beginLoadData() {
-        updatePickSelectMoreBar();
+        updateReselectionBar();
         onPermissionExplainEvent(false, null);
         if (selectorConfig.isOnlySandboxDir) {
             loadOnlyInAppDirectoryAllMediaData();
@@ -1380,19 +1382,12 @@ public class PictureSelectorFragment extends PictureCommonFragment
     }
 
     /**
-     * 判断是否启用 动态添加
-     * 没有全部访问权限的情况下都使用
+     * 判断是否启用 重选功能
      *
      * @return
+     * @see {https://github.com/LuckSiege/PictureSelector/pull/2837}
      */
-    private boolean isDynamicAddSelectEnable() {
-        if (!selectorConfig.isUseDynamicAddSelect) {
-            return false;
-        }
-        if (selectorConfig.onPermissionsEventListener != null) {
-            return !selectorConfig.onPermissionsEventListener.hasPermissions(this, PermissionConfig.getReadPermissionArray(getContext(), selectorConfig.chooseMode));
-        } else {
-            return !PermissionChecker.checkSelfPermission(getContext(), PermissionConfig.getReadPermissionArray(getContext(), selectorConfig.chooseMode));
-        }
+    private boolean isReselectionEnable() {
+        return selectorConfig.isUseReselection && PermissionChecker.isCheckUserSelected(selectorConfig.chooseMode, getContext());
     }
 }
