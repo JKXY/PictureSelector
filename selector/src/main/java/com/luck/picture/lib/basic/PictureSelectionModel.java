@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -53,7 +54,6 @@ import com.luck.picture.lib.interfaces.OnSelectFilterListener;
 import com.luck.picture.lib.interfaces.OnSelectLimitTipsListener;
 import com.luck.picture.lib.interfaces.OnVideoThumbnailEventListener;
 import com.luck.picture.lib.language.LanguageConfig;
-import com.luck.picture.lib.permissions.PermissionChecker;
 import com.luck.picture.lib.style.PictureSelectorStyle;
 import com.luck.picture.lib.style.PictureWindowAnimationStyle;
 import com.luck.picture.lib.utils.DoubleUtils;
@@ -1307,6 +1307,26 @@ public final class PictureSelectionModel {
     }
 
     /**
+     * set isUsePhotoPicker default:false
+     * @param isUsePhotoPicker
+     * @return
+     */
+    public PictureSelectionModel isUsePhotoPicker(boolean isUsePhotoPicker) {
+        selectionConfig.isUsePhotoPicker = isUsePhotoPicker;
+        return this;
+    }
+
+    /**
+     * set isUseDynamicAddSelect default:true
+     * @param isUseDynamicAddSelect
+     * @return
+     */
+    public PictureSelectionModel isUseDynamicAddSelect(boolean isUseDynamicAddSelect){
+        selectionConfig.isUseDynamicAddSelect = isUseDynamicAddSelect;
+        return this;
+    }
+
+    /**
      * Start PictureSelector
      *
      * @param call
@@ -1327,13 +1347,7 @@ public final class PictureSelectionModel {
             if (selectionConfig.imageEngine == null && selectionConfig.chooseMode != SelectMimeType.ofAudio()) {
                 throw new NullPointerException("imageEngine is null,Please implement ImageEngine");
             }
-            Intent intent;
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || PermissionChecker.isCheckReadStorage(selectionConfig.chooseMode, activity)) {
-                intent = new Intent(activity, PictureSelectorSupporterActivity.class);//默认的
-            } else {//Picker
-                intent = new Intent(activity, PictureSelectorTransparentActivity.class);
-                intent.putExtra(PictureConfig.EXTRA_MODE_TYPE_SOURCE, PictureConfig.MODE_TYPE_SYSTEM_PICK_SOURCE);
-            }
+            Intent intent = getIntent(activity);
             activity.startActivity(intent);
             PictureWindowAnimationStyle windowAnimationStyle = selectionConfig.selectorStyle.getWindowAnimationStyle();
             activity.overridePendingTransition(windowAnimationStyle.activityEnterAnimation, R.anim.ps_anim_fade_in);
@@ -1357,13 +1371,7 @@ public final class PictureSelectionModel {
             if (selectionConfig.imageEngine == null && selectionConfig.chooseMode != SelectMimeType.ofAudio()) {
                 throw new NullPointerException("imageEngine is null,Please implement ImageEngine");
             }
-            Intent intent;
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || PermissionChecker.isCheckReadStorage(selectionConfig.chooseMode, activity)) {
-                intent = new Intent(activity, PictureSelectorSupporterActivity.class);//默认的
-            } else {//Picker
-                intent = new Intent(activity, PictureSelectorTransparentActivity.class);
-                intent.putExtra(PictureConfig.EXTRA_MODE_TYPE_SOURCE, PictureConfig.MODE_TYPE_SYSTEM_PICK_SOURCE);
-            }
+            Intent intent = getIntent(activity);
             Fragment fragment = selector.getFragment();
             if (fragment != null) {
                 fragment.startActivityForResult(intent, requestCode);
@@ -1395,17 +1403,24 @@ public final class PictureSelectionModel {
             if (selectionConfig.imageEngine == null && selectionConfig.chooseMode != SelectMimeType.ofAudio()) {
                 throw new NullPointerException("imageEngine is null,Please implement ImageEngine");
             }
-            Intent intent;
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || PermissionChecker.isCheckReadStorage(selectionConfig.chooseMode, activity)) {
-                intent = new Intent(activity, PictureSelectorSupporterActivity.class);//默认的
-            } else {//Picker
-                intent = new Intent(activity, PictureSelectorTransparentActivity.class);
-                intent.putExtra(PictureConfig.EXTRA_MODE_TYPE_SOURCE, PictureConfig.MODE_TYPE_SYSTEM_PICK_SOURCE);
-            }
+            Intent intent = getIntent(activity);
             launcher.launch(intent);
             PictureWindowAnimationStyle windowAnimationStyle = selectionConfig.selectorStyle.getWindowAnimationStyle();
             activity.overridePendingTransition(windowAnimationStyle.activityEnterAnimation, R.anim.ps_anim_fade_in);
         }
+    }
+
+    @NonNull
+    private Intent getIntent(Activity activity) {
+        Intent intent;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && selectionConfig.isUsePhotoPicker && selectionConfig.chooseMode != SelectMimeType.ofAudio()) {
+            //PhotoPicker
+            intent = new Intent(activity, PictureSelectorTransparentActivity.class);
+            intent.putExtra(PictureConfig.EXTRA_MODE_TYPE_SOURCE, PictureConfig.MODE_TYPE_SYSTEM_PICK_SOURCE);
+        } else {//默认
+            intent = new Intent(activity, PictureSelectorSupporterActivity.class);//默认的
+        }
+        return intent;
     }
 
     /**

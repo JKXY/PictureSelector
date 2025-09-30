@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements IBridgePictureBeh
             cb_system_album, cb_fast_select, cb_skip_not_gif, cb_not_gif, cb_attach_camera_mode,
             cb_attach_system_mode, cb_camera_zoom, cb_camera_focus, cb_query_sort_order, cb_watermark,
             cb_custom_preview, cb_permission_desc,cb_video_thumbnails, cb_auto_video, cb_selected_anim,
-            cb_video_resume, cb_custom_loading;
+            cb_video_resume, cb_custom_loading,cbPhotoPick, cbDynamicAddSelect;
     private int chooseMode = SelectMimeType.ofAll();
     private boolean isHasLiftDelete;
     private boolean needScaleBig = true;
@@ -238,6 +238,8 @@ public class MainActivity extends AppCompatActivity implements IBridgePictureBeh
         cb_watermark = findViewById(R.id.cb_watermark);
         cb_WithImageVideo = findViewById(R.id.cbWithImageVideo);
         cb_system_album = findViewById(R.id.cb_system_album);
+        cbPhotoPick = findViewById(R.id.cbPhotoPick);
+        cbDynamicAddSelect = findViewById(R.id.cbDynamicAddSelect);
         cb_fast_select = findViewById(R.id.cb_fast_select);
         cb_preview_full = findViewById(R.id.cb_preview_full);
         cb_preview_scale = findViewById(R.id.cb_preview_scale);
@@ -483,6 +485,8 @@ public class MainActivity extends AppCompatActivity implements IBridgePictureBeh
                                 .isLoopAutoVideoPlay(cb_auto_video.isChecked())
                                 .isUseSystemVideoPlayer(isUseSystemPlayer)
                                 .isPageSyncAlbumCount(true)
+                                .isUsePhotoPicker(cbPhotoPick.isChecked())
+                                .isUseDynamicAddSelect(cbDynamicAddSelect.isChecked())
                                 .setCustomLoadingListener(getCustomLoadingListener())
                                 .setQueryFilterListener(new OnQueryFilterListener() {
                                     @Override

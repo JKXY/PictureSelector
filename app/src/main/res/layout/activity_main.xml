@@ -568,6 +568,25 @@
                     android:visibility="gone" />
 
                 <CheckBox
+                    android:id="@+id/cbPhotoPick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="使用照片选择器"
+                    android:textColor="@color/app_color_53575e"
+                    android:textSize="14sp" />
+
+                <CheckBox
+                    android:id="@+id/cbDynamicAddSelect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="使用动态添加"
+                    android:checked="true"
+                    android:textColor="@color/app_color_53575e"
+                    android:textSize="14sp" />
+
+                <CheckBox
                     android:id="@+id/cbWithImageVideo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

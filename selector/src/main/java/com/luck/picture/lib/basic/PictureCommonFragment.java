@@ -1218,7 +1218,7 @@ public abstract class PictureCommonFragment extends Fragment implements IPicture
      *
      * @param media 要刷新的对象
      */
-    private void onScannerScanFile(LocalMedia media) {
+    protected void onScannerScanFile(LocalMedia media) {
         if (ActivityCompatHelper.isDestroy(getActivity())) {
             return;
         }

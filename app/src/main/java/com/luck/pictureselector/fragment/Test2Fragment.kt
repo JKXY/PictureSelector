@@ -85,7 +85,7 @@ class Test2Fragment: Fragment() {
 
     fun openCamera(){
         PictureSelector.create(this)
-            .openCamera(SelectMimeType.ofImage())
+            .openCamera(SelectMimeType.ofAll())
             .setCameraInterceptListener(MeOnCameraInterceptListener())
             .setCropEngine(ImageFileCropEngine())
             .setCompressEngine(ImageFileCompressEngine())

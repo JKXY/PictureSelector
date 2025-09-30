@@ -75,4 +75,6 @@
     <string name="ps_select_audio_max_second">选择音频大于%1$d秒</string>
     <string name="ps_select_audio_min_second">选择音频小于%1$d秒</string>
     <string name="ps_select_no_support">不支持的选择类型</string>
+    <string name="ps_dynamic_add_select_tips">当前仅部分照片/视频可选</string>
+    <string name="ps_pick_select_more_btn">选择更多</string>
 </resources>

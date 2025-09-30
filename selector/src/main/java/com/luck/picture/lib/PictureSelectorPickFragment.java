@@ -93,6 +93,9 @@ public class PictureSelectorPickFragment extends PictureCommonFragment {
         List<LocalMedia> list = doFilterResultByQuery(uris);
         list = doFilterResultBySelect(list);
         ArrayList<LocalMedia> selectedResult = selectorConfig.getSelectedResult();
+        if (uris != null && !uris.isEmpty() && !selectedResult.isEmpty()) {
+            list.removeAll(selectedResult);// 去重
+        }
         selectedResult.addAll(list);
         if (selectorConfig.isEmptyResultReturn && list.isEmpty()) {
             onExitPictureSelector();
@@ -110,7 +113,8 @@ public class PictureSelectorPickFragment extends PictureCommonFragment {
     }
 
     /**
-     * 过滤选择结果 - 查询文件大小，视频时长，自定义查询过滤等（同步到 PictureSelectorFragment 在加载数据时就过滤了的）
+     * 过滤查询结果 - 查询文件大小，视频时长，自定义查询过滤等（同步到 PictureSelectorFragment 在加载数据时就过滤了的）
+     * filterMinFileSize， filterMaxFileSize，filterVideoMinSecond，filterVideoMaxSecond
      *
      * @param uris 选择结果
      * @return
@@ -134,6 +138,13 @@ public class PictureSelectorPickFragment extends PictureCommonFragment {
         return result;
     }
 
+    /**
+     * 过滤选择结果 - 选择文件大小，视频时长，自定义选择过滤等
+     *
+     * @param selected 选择结果
+     * @return
+     * @see com.luck.picture.lib.basic.PictureCommonFragment#confirmSelect
+     */
     private List<LocalMedia> doFilterResultBySelect(List<LocalMedia> selected) {
         List<LocalMedia> result = new ArrayList<>();
         if (selected == null || selected.isEmpty()) {
@@ -149,6 +160,7 @@ public class PictureSelectorPickFragment extends PictureCommonFragment {
 
     /**
      * 过滤选择结果 - 选择文件大小，视频时长，自定义选择过滤等
+     * selectMaxFileSize， selectMinFileSize，maxVideoSelectNum，selectMaxDurationSecond，selectMinDurationSecond等
      *
      * @param localMedia 选择结果
      * @return

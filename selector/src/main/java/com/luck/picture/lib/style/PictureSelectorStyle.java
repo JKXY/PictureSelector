@@ -30,6 +30,8 @@ public class PictureSelectorStyle {
      */
     private PictureWindowAnimationStyle windowAnimationStyle;
 
+    private DynamicAddSelectBarStyle dynamicAddSelectBarStyle;
+
     public TitleBarStyle getTitleBarStyle() {
         return titleBarStyle == null ? new TitleBarStyle() : titleBarStyle;
     }
@@ -71,5 +73,13 @@ public class PictureSelectorStyle {
 
     public void setAlbumWindowStyle(AlbumWindowStyle albumWindowStyle) {
         this.albumWindowStyle = albumWindowStyle;
+    }
+
+    public DynamicAddSelectBarStyle getDynamicAddSelectBarStyle() {
+        return dynamicAddSelectBarStyle == null ? new DynamicAddSelectBarStyle() : dynamicAddSelectBarStyle;
+    }
+
+    public void setDynamicAddSelectBarStyle(DynamicAddSelectBarStyle dynamicAddSelectBarStyle) {
+        this.dynamicAddSelectBarStyle = dynamicAddSelectBarStyle;
     }
 }

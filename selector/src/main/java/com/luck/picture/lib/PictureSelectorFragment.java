@@ -69,6 +69,8 @@ import com.luck.picture.lib.utils.ToastUtils;
 import com.luck.picture.lib.utils.ValueOf;
 import com.luck.picture.lib.widget.BottomNavBar;
 import com.luck.picture.lib.widget.CompleteSelectView;
+import com.luck.picture.lib.widget.DynamicAddSelectBar;
+import com.luck.picture.lib.widget.DynamicAddSelectBar.OnDynamicAddSelectBarListener;
 import com.luck.picture.lib.widget.RecyclerPreloadView;
 import com.luck.picture.lib.widget.SlideSelectTouchListener;
 import com.luck.picture.lib.widget.SlideSelectionHandler;
@@ -97,6 +99,7 @@ public class PictureSelectorFragment extends PictureCommonFragment
     private TextView tvDataEmpty;
     private TitleBar titleBar;
     private BottomNavBar bottomNarBar;
+    private DynamicAddSelectBar dynamicAddSelectBar;
     private CompleteSelectView completeSelectView;
     private TextView tvCurrentDataTime;
     private long intervalClickTime = 0;
@@ -246,11 +249,13 @@ public class PictureSelectorFragment extends PictureCommonFragment
         tvDataEmpty = view.findViewById(R.id.tv_data_empty);
         completeSelectView = view.findViewById(R.id.ps_complete_select);
         titleBar = view.findViewById(R.id.title_bar);
-        bottomNarBar = view.findViewById(R.id.bottom_nar_bar);
+        dynamicAddSelectBar = view.findViewById(R.id.dynamic_add_select_bar);
         tvCurrentDataTime = view.findViewById(R.id.tv_current_data_time);
+        bottomNarBar = view.findViewById(R.id.bottom_nar_bar);
         onCreateLoader();
         initAlbumListPopWindow();
         initTitleBar();
+        initPickSelectMoreBar();
         initComplete();
         initRecycler(view);
         initBottomNavBar();
@@ -271,7 +276,7 @@ public class PictureSelectorFragment extends PictureCommonFragment
     @Override
     public void onResume() {
         super.onResume();
-        AndroidBarUtils.autoFitNavBar(requireActivity(),nav_bar);
+        AndroidBarUtils.autoFitNavBar(requireActivity(), nav_bar);
         PictureSelectorStyle selectorStyle = selectorConfig.selectorStyle;
         BottomNavBarStyle bottomBarStyle = selectorStyle.getBottomBarStyle();
         int backgroundColor = bottomBarStyle.getBottomNarBarBackgroundColor();
@@ -282,13 +287,13 @@ public class PictureSelectorFragment extends PictureCommonFragment
             int redValue = Color.red(color);
             int greenValue = Color.green(color);
             int blueValue = Color.blue(color);
-            int[] colorArry = new int[]{redValue,greenValue,blueValue};
-            if (isLightRGB(colorArry)){
+            int[] colorArry = new int[]{redValue, greenValue, blueValue};
+            if (isLightRGB(colorArry)) {
                 AndroidBarUtils.setNavBarMode(requireActivity().getWindow(), true);
-            }else {
+            } else {
                 AndroidBarUtils.setNavBarMode(requireActivity().getWindow(), false);
             }
-        }else{
+        } else {
             //没有颜色
             AndroidBarUtils.setNavBarMode(requireActivity().getWindow(), false);
         }
@@ -300,13 +305,13 @@ public class PictureSelectorFragment extends PictureCommonFragment
             int redValue = Color.red(color);
             int greenValue = Color.green(color);
             int blueValue = Color.blue(color);
-            int[] colorArry = new int[]{redValue,greenValue,blueValue};
-            if (isLightRGB(colorArry)){
+            int[] colorArry = new int[]{redValue, greenValue, blueValue};
+            if (isLightRGB(colorArry)) {
                 AndroidBarUtils.setStatusBarMode(requireActivity().getWindow(), true);
-            }else {
+            } else {
                 AndroidBarUtils.setStatusBarMode(requireActivity().getWindow(), false);
             }
-        }else{
+        } else {
             //没有颜色
             AndroidBarUtils.setStatusBarMode(requireActivity().getWindow(), false);
         }
@@ -421,6 +426,27 @@ public class PictureSelectorFragment extends PictureCommonFragment
         });
     }
 
+    private void initPickSelectMoreBar() {
+        dynamicAddSelectBar.setDynamicAddSelectBarStyle();
+        dynamicAddSelectBar.setOnPickSelectMoreBarListener(new OnDynamicAddSelectBarListener() {
+            @Override
+            public void onDynamicAddClick() {
+                if (DoubleUtils.isFastDoubleClick()) {
+                    return;
+                }
+                requestLoadData();
+            }
+        });
+    }
+
+    private void updatePickSelectMoreBar() {
+        if (isDynamicAddSelectEnable()) {
+            dynamicAddSelectBar.setVisibility(View.VISIBLE);
+        } else {
+            dynamicAddSelectBar.setVisibility(View.GONE);
+        }
+    }
+
     /**
      * initAlbumListPopWindow
      */
@@ -444,7 +470,7 @@ public class PictureSelectorFragment extends PictureCommonFragment
         addAlbumPopWindowAction();
     }
 
-    private void recoverSaveInstanceData(){
+    private void recoverSaveInstanceData() {
         mAdapter.setDisplayCamera(isDisplayCamera);
         setEnterAnimationDuration(0);
         if (selectorConfig.isOnlySandboxDir) {
@@ -527,6 +553,7 @@ public class PictureSelectorFragment extends PictureCommonFragment
      * 开始获取数据
      */
     private void beginLoadData() {
+        updatePickSelectMoreBar();
         onPermissionExplainEvent(false, null);
         if (selectorConfig.isOnlySandboxDir) {
             loadOnlyInAppDirectoryAllMediaData();
@@ -537,7 +564,7 @@ public class PictureSelectorFragment extends PictureCommonFragment
 
     @Override
     public void handlePermissionSettingResult(String[] permissions) {
-        if (permissions == null){
+        if (permissions == null) {
             return;
         }
         onPermissionExplainEvent(false, null);
@@ -1344,11 +1371,28 @@ public class PictureSelectorFragment extends PictureCommonFragment
         }
     }
 
-    public boolean isLightRGB(int[] colors){
+    public boolean isLightRGB(int[] colors) {
         int grayLevel = (int) (colors[0] * 0.299 + colors[1] * 0.587 + colors[2] * 0.114);
-        if(grayLevel>=192){
+        if (grayLevel >= 192) {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 判断是否启用 动态添加
+     * 没有全部访问权限的情况下都使用
+     *
+     * @return
+     */
+    private boolean isDynamicAddSelectEnable() {
+        if (!selectorConfig.isUseDynamicAddSelect) {
+            return false;
+        }
+        if (selectorConfig.onPermissionsEventListener != null) {
+            return !selectorConfig.onPermissionsEventListener.hasPermissions(this, PermissionConfig.getReadPermissionArray(getContext(), selectorConfig.chooseMode));
+        } else {
+            return !PermissionChecker.checkSelfPermission(getContext(), PermissionConfig.getReadPermissionArray(getContext(), selectorConfig.chooseMode));
+        }
     }
 }
