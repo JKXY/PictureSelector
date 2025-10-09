@@ -20,12 +20,11 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     buildFeatures {
-        viewBinding = true
         buildConfig = true
     }
 
@@ -78,30 +77,30 @@ centralPortal {
     username = ossrhUsername
     password = ossrhPassword
     name = "PictureSelector"
-    group = "io.github.liyuhaolol"
-    version = "v3.11.8"
+    group = "io.github.jkxy"
+    version = "v3.12.3"
     pom {
         //packaging = "aar"
         name = "PictureSelector"
         description = "Android PictureSelector Utils"
-        url = "https://github.com/liyuhaolol/PictureSelector"
+        url = "https://github.com/JKXY/PictureSelector"
         licenses {
             license {
                 name = "Apache License"
-                url = "https://github.com/liyuhaolol/PictureSelector/blob/master/LICENSE"
+                url = "https://github.com/JKXY/PictureSelector/blob/master/LICENSE"
             }
         }
         developers {
             developer {
-                id = "liyuhao"
-                name = "liyuhao"
-                email = "liyuhaoid@sina.com"
+                id = "JKXY"
+                name = "JKXY"
+                email = "jkxy.771351897@gmail.com"
             }
         }
         scm {
-            connection = "scm:git@github.com/liyuhaolol/PictureSelector.git"
-            developerConnection = "scm:git@github.com/liyuhaolol/PictureSelector.git"
-            url = "https://github.com/liyuhaolol/PictureSelector"
+            connection = "scm:git@github.com/JKXY/PictureSelector.git"
+            developerConnection = "scm:git@github.com/JKXY/PictureSelector.git"
+            url = "https://github.com/JKXY/PictureSelector"
         }
 
     }
