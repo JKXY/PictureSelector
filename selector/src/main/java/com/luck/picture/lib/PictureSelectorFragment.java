@@ -1398,6 +1398,7 @@ public class PictureSelectorFragment extends PictureCommonFragment
      * @see {https://github.com/LuckSiege/PictureSelector/pull/2837}
      */
     private boolean isReselectionEnable() {
-        return selectorConfig.isUseReselection && PermissionChecker.isCheckUserSelected(selectorConfig.chooseMode, getContext());
+        return selectorConfig.isUseReselection && !PermissionChecker.isCheckReadStorage(selectorConfig.chooseMode, getContext())
+                && PermissionChecker.isCheckUserSelected(selectorConfig.chooseMode, getContext());
     }
 }
